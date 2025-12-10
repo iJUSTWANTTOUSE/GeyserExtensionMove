@@ -11,7 +11,7 @@ public class GeyserExtensionMover extends JavaPlugin {
         getLogger().info("Moving GeyserExtensions jars...");
 
         File pluginsFolder = getDataFolder().getParentFile();
-        File geyserExtFolder = new File(pluginsFolder, "Geyser/extensions");
+        File geyserExtFolder = new File(pluginsFolder, "Geyser-Spigot/extensions");
 
         if (!geyserExtFolder.exists()) {
             geyserExtFolder.mkdirs();
@@ -39,4 +39,5 @@ public class GeyserExtensionMover extends JavaPlugin {
         getLogger().info("Done moving Geyser extension jars.");
     }
 }
+
 
