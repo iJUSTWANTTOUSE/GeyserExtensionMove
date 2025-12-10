@@ -1,28 +1,22 @@
-package com.example;
+@Override
+public void onEnable() {
+    getLogger().info("Starting Geyser Extension mover...");
 
-import org.bukkit.plugin.java.JavaPlugin;
+    File pluginsFolder = getDataFolder().getParentFile();
+    File updateFolder = new File(pluginsFolder, "update"); // folder to watch
+    File geyserExtFolder = new File(pluginsFolder, "Geyser-Spigot/extensions");
 
-import java.io.File;
+    if (!geyserExtFolder.exists()) {
+        geyserExtFolder.mkdirs();
+    }
 
-public class GeyserExtensionMover extends JavaPlugin {
-
-    @Override
-    public void onEnable() {
-        getLogger().info("Moving GeyserExtensions jars...");
-
-        File pluginsFolder = getDataFolder().getParentFile();
-        File geyserExtFolder = new File(pluginsFolder, "Geyser-Spigot/extensions");
-
-        if (!geyserExtFolder.exists()) {
-            geyserExtFolder.mkdirs();
-        }
-
-        File[] jars = pluginsFolder.listFiles((dir, name) ->
-                name.startsWith("(GeyserExtension)") && name.endsWith(".jar"));
+    // Schedule a repeating task every 5 seconds (100 ticks)
+    getServer().getScheduler().runTaskTimer(this, () -> {
+        File[] jars = updateFolder.listFiles((dir, name) ->
+                name.contains("(GeyserExtension)") && name.endsWith(".jar"));
 
         if (jars == null || jars.length == 0) {
-            getLogger().info("No matching jars found.");
-            return;
+            return; // nothing to move
         }
 
         for (File jar : jars) {
@@ -35,9 +29,5 @@ public class GeyserExtensionMover extends JavaPlugin {
                 getLogger().warning("Failed to move: " + jar.getName());
             }
         }
-
-        getLogger().info("Done moving Geyser extension jars.");
-    }
+    }, 0L, 100L); // 0 tick delay, 100 tick repeat (5 seconds)
 }
-
-
