@@ -18,7 +18,7 @@ public class GeyserExtensionMover extends JavaPlugin {
         }
 
         File[] jars = pluginsFolder.listFiles((dir, name) ->
-                name.startsWith("(GeyserExtensions)") && name.endsWith(".jar"));
+                name.startsWith("(GeyserExtension)") && name.endsWith(".jar"));
 
         if (jars == null || jars.length == 0) {
             getLogger().info("No matching jars found.");
@@ -39,3 +39,4 @@ public class GeyserExtensionMover extends JavaPlugin {
         getLogger().info("Done moving Geyser extension jars.");
     }
 }
+
